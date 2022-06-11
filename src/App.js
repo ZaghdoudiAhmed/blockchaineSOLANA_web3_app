@@ -8,13 +8,8 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 function App() {
   //States
   const [walletAddress, setWalletAddress] = useState(null);
-
-  const TEST_GIFS = [
-    "https://i.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.webp",
-    "https://media3.giphy.com/media/L71a8LW2UrKwPaWNYM/giphy.gif?cid=ecf05e47rr9qizx2msjucl1xyvuu47d7kf25tqt2lvo024uo&rid=giphy.gif&ct=g",
-    // "https://media4.giphy.com/media/AeFmQjHMtEySooOc8K/giphy.gif?cid=ecf05e47qdzhdma2y3ugn32lkgi972z9mpfzocjj6z1ro4ec&rid=giphy.gif&ct=g",
-    // "https://i.giphy.com/media/PAqjdPkJLDsmBRSYUp/giphy.webp",
-  ];
+  const [inputValue, setInputValue] = useState("");
+  const [gifList, setGifList] = useState([]);
 
   //Actions
   const checkIfWalletIsConnected = async () => {
@@ -40,10 +35,27 @@ function App() {
   };
 
   const renderConnectedContainer = () => (
-    <div className="connected-container">
+    <div className="container">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          sendGif();
+        }}
+      >
+        <input
+          type="text"
+          value={inputValue}
+          onChange={onInputChange}
+          placeholder="Enter gif link!"
+        />
+        <button type="submit" className="cta-button submit-gif-button">
+          Submit
+        </button>
+      </form>
+      <br />
       <div className="d-flex justify-content-evenly">
-        {TEST_GIFS.map((gif) => (
-          <div className="" key={gif}>
+        {gifList.map((gif) => (
+          <div className="gif" key={gif}>
             <img src={gif} alt={gif} />
           </div>
         ))}
@@ -52,6 +64,21 @@ function App() {
   );
 
   const connectWallet = async () => {};
+
+  const sendGif = async () => {
+    if (inputValue.length > 0) {
+      console.log("Gif link:", inputValue);
+      setGifList([...gifList, inputValue]);
+      setInputValue("");
+    } else {
+      console.log("Empty input. Try again.");
+    }
+  };
+
+  const onInputChange = (event) => {
+    const { value } = event.target;
+    setInputValue(value);
+  };
 
   const renderNotConnectedContainer = () => (
     <button
@@ -70,9 +97,19 @@ function App() {
     return () => window.removeEventListener("load", onLoad);
   }, []);
 
+  useEffect(() => {
+    if (walletAddress) {
+      console.log("Fetching GIF list...");
+
+      // Call Solana program here.
+
+      // Set state
+    }
+  }, [walletAddress]);
+
   return (
     <div className="App">
-      <nav className="navbar navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
             <img
@@ -81,41 +118,49 @@ function App() {
               width={30}
               height={24}
               className="d-inline-block align-text-top"
-            />{" "}
+            />
             Solana
           </a>
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {/* <li className="nav-item">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="navbar-nav">
               <a className="nav-link active" aria-current="page" href="#">
-                About Blockchaine
+                Blockchaine
               </a>
-            </li> */}
-            <li className="nav-item d-flex justify-content-end">
-              <a className="nav-link active" aria-current="page" href="#">
-                About us
+              <a className="nav-link active" href="#">
+                Solana
               </a>
-            </li>
-          </ul>
-          <div className="d-flex dropdown">
-            <a
-              href="#"
-              className="dropdown-toggle"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <img src={"/phontom.jpeg"} width={35} height={30} />
-            </a>
-            <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <li>
-                <a className="dropdown-item" href="#">
-                  Something else here
-                </a>
-              </li>
-            </ul>
+              <a className="nav-link active" href="#">
+                Bridge
+              </a>
+              <a className="nav-link active" href="#">
+                About us{" "}
+              </a>
+            </div>
           </div>
+          {walletAddress && (
+            <div className="d-flex">
+              <img
+                alt="phontom logo"
+                src={"/phontom.jpeg"}
+                width={35}
+                height={30}
+              />
+            </div>
+          )}
         </div>
       </nav>
+
       {/* This was solely added for some styling fanciness */}
       <div className={walletAddress ? "authed-container" : "container"}>
         <div className="header-container ">
