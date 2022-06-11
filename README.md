@@ -1,4 +1,6 @@
 ## Web 3 application on Solana blockchaine
-# WOHOOOO !!
----------------------------
+
+---
+
 1/ Building a connect wallet button with Phontom Wallet.
+2/ Building the GIF grid
