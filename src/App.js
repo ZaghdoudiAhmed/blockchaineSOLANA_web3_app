@@ -134,13 +134,17 @@ function App() {
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <a className="nav-link active" aria-current="page" href="#">
+              <a
+                className="nav-link active"
+                aria-current="page"
+                href="blockchaine"
+              >
                 Blockchaine
               </a>
-              <a className="nav-link active" href="#">
+              <a className="nav-link active" href="solana">
                 Solana
               </a>
-              <a className="nav-link active" href="#">
+              <a className="nav-link active" href="bridge">
                 Bridge
               </a>
               <a className="nav-link active" href="#">
